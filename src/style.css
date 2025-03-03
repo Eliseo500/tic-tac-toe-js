@@ -1,5 +1,13 @@
 :root {
-  color-scheme: dark;
+  --color-accent-light: 31, 166, 244;
+  --color-accent-dark: 119, 95, 239;
+
+  --color-bg-light: 245, 245, 245;
+  --color-bg-dark: 24, 24, 24;
+
+  --color-bg: var(--color-bg-light);
+  --color-text: var(--color-bg-dark);
+  --color-accent: var(--color-accent-light);
 }
 
 *,
@@ -10,9 +18,29 @@
   padding: 0;
 }
 
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.darkmode {
+  --color-bg-light: 255, 255, 255;
+  --color-bg: var(--color-bg-dark);
+  --color-text: var(--color-bg-light);
+  --color-accent: var(--color-accent-dark);
+}
+
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: "Fredoka", serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+
+  background-color: rgb(var(--color-bg));
+  color: rgb(var(--color-text));
 }
 
 .app {
@@ -24,7 +52,7 @@ body {
 }
 
 .container {
-  max-width: 600px;
+  max-width: 300px;
   margin: auto;
 
   display: flex;
@@ -41,13 +69,12 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
-  gap: 1rem;
+  gap: 4%;
   margin: auto;
 }
 
 .square {
   aspect-ratio: 1;
-  border: 1px solid white;
   border-radius: 10px;
 
   font-size: 3rem;
@@ -55,6 +82,87 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgba(var(--color-accent), 0.09);
+
+  box-shadow: 3px 3px 9px rgba(var(--color-accent), 0.1),
+    2px 2px 3px rgba(var(--color-text), 0.1),
+    inset -1px -1px 3px rgba(var(--color-text), 0.1),
+    inset 1px 1px 3px rgba(var(--color-bg), 0.1),
+    inset 1px 1px 3px rgba(var(--color-bg), 0.3);
+}
+
+.darkmode .square {
+  background-color: rgba(var(--color-accent), 0.1);
+  --shadow-size: 1px;
+  --shadow-color-1: rgba(0, 0, 0, 0.1);
+  --shadow-color-2: rgba(var(--color-text), 0.3);
+
+  box-shadow: calc(var(--shadow-size) * 3) calc(var(--shadow-size) * 3)
+      calc(var(--shadow-size) * 9) rgba(var(--color-accent), 0.1),
+    calc(var(--shadow-size) * 2) calc(var(--shadow-size) * 2)
+      calc(var(--shadow-size) * 14) var(--shadow-color-1),
+    inset calc(var(--shadow-size) * -1) calc(var(--shadow-size) * -1)
+      calc(var(--shadow-size) * 3) var(--shadow-color-1),
+    inset calc(var(--shadow-size) * 1) calc(var(--shadow-size) * 1)
+      calc(var(--shadow-size) * 3) var(--shadow-color-1),
+    inset calc(var(--shadow-size) * 1) calc(var(--shadow-size) * 1)
+      calc(var(--shadow-size) * 3) var(--shadow-color-2);
+}
+
+.iconContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.icon,
+.iconBefore,
+.iconAfter {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(var(--color-accent), 1);
+}
+
+.iconContainer svg {
+  width: 60%;
+  height: 60%;
+
+  animation: grow 0.35s ease-in-out forwards;
+}
+
+@keyframes grow {
+  0% {
+    transform: scale(0) rotate(0deg) translate(0, 0);
+  }
+  25% {
+    transform: scale(0.5) rotate(5deg) translate(0, -5px);
+  }
+  50% {
+    transform: scale(0.75) rotate(0deg) translate(0, 0);
+  }
+  75% {
+    transform: scale(1) rotate(-5deg) translate(0, 10px);
+  }
+  100% {
+    transform: scale(1) rotate(0deg) translate(0, 0);
+  }
+}
+
+.icon {
+  z-index: 1;
+}
+
+.icon svg {
+  filter: drop-shadow(4px 4px 2px rgba(0, 0, 0, 0.1))
+    drop-shadow(6px -5px 4px rgba(0, 0, 0, 0.1)) url(#inset-shadow-simple);
 }
 
 .square:hover {
@@ -79,7 +187,6 @@ body {
 
 .info * {
   width: 50%;
-  padding: 1rem;
 }
 
 .points {
@@ -88,15 +195,27 @@ body {
 
 .info button {
   cursor: pointer;
-  background-color: transparent;
-  border: 1px solid white;
+  background-color: rgb(var(--color-accent));
+  border: none;
+  color: #ffffff;
+
   border-radius: 10px;
   padding: 0.5rem;
+
+  box-shadow: 2px 2px 5px rgba(4, 63, 97, 0.5),
+    inset 2px 2px 5px rgba(255, 255, 255, 0.5),
+    inset 0px 0px 0px rgba(4, 63, 97, 0.5);
+
+  transition: box-shadow 0.1s linear;
 }
 
 .info button:hover {
   background-color: white;
-  color: black;
+  color: rgb(var(--color-accent));
+
+  box-shadow: 0px 0px 0px rgba(var(--color-accent), 0.5),
+    inset 0px 0px 0px rgba(var(--color-text), 0.5),
+    inset 2px 2px 8px rgba(var(--color-accent), 0.5);
 }
 
 .winner {
@@ -108,4 +227,56 @@ body {
   align-items: center;
   font-size: 2rem;
   color: white;
+}
+
+.points {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(var(--color-accent), 0.1);
+
+  box-shadow: 1px 1px 2px rgba(var(--color-accent), 0.2),
+    inset 1px 1px 2px rgba(var(--color-text), 0.2);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.points__title {
+  background-color: rgb(var(--color-accent));
+  border: none;
+  color: #fff;
+
+  text-align: center;
+  width: 100%;
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
+
+  box-shadow: 2px 2px 5px rgba(4, 63, 97, 0.5),
+    inset 2px 2px 5px rgba(255, 255, 255, 0.5),
+    inset 0px 0px 0px rgba(4, 63, 97, 0.5);
+}
+
+.points__player {
+  display: flex;
+  justify-content: space-between;
+
+  border-bottom: 1px solid var(--color-accent);
+  width: 100%;
+}
+
+.points__player:last-child {
+  border-bottom: none;
+}
+
+.points__label {
+  font-weight: bold;
+  padding: 0.5rem;
+  width: 100%;
+  text-align: right;
+  background-color: var(--color-bg);
+}
+
+.points__value {
+  font-weight: bold;
+  padding: 0.5rem;
+  width: 100%;
+  background-color: var(--color-bg);
 }

@@ -6,8 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
     <script type="module" src="/src/main.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
+  <body class="darkmode">
     <div id="app">
       <div class="container">
         <h1 class="title">Tic Tac Toe</h1>
@@ -15,8 +26,15 @@
         <div class="info">
           <button id="reset">New Game</button>
           <div class="points">
-            <span id="player-1">0</span> :
-            <span id="player-2">0</span>
+            <h3 class="points__title">Points</h3>
+            <div class="points__player">
+              <span class="points__label">X:</span>
+              <span class="points__value" id="player-1">0</span>
+            </div>
+            <div class="points__player">
+              <span class="points__label">O:</span>
+              <span class="points__value" id="player-2">0</span>
+            </div>
           </div>
         </div>
       </div>
