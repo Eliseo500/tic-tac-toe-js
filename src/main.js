@@ -7,6 +7,20 @@ const reset = document.getElementById("reset");
 const board = document.querySelector(".board");
 const playerPoints = document.getElementById("player-1");
 const player2Points = document.getElementById("player-2");
+const darkmode = document.getElementById("darkmode");
+
+const actualMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+if (actualMode) {
+  document.body.classList.add("darkmode");
+  darkmode.checked = true;
+} else {
+  document.body.classList.remove("darkmode");
+  darkmode.checked = false;
+}
+
+darkmode.addEventListener("change", () => {
+  document.body.classList.toggle("darkmode");
+});
 
 console.log(icons);
 const boardSize = 3;
