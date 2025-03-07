@@ -1,4 +1,5 @@
 import "./style.css";
+import "./utilities.css";
 import { icons } from "./icons";
 
 const app = document.getElementById("app");
@@ -23,31 +24,26 @@ const createBoard = () => {
 // DOM
 const createSquare = (index) => {
   const square = document.createElement("div");
-  square.classList.add("square");
+  square.classList.add("board__square");
+  square.classList.add("shadow-box");
   square.setAttribute("id", index);
   square.setAttribute("data-value", "");
   square.addEventListener("click", (e) => handleSquareClick(e));
 
   const icon = document.createElement("span");
-  const iconContainer = document.createElement("span");
-  iconContainer.appendChild(icon);
+  icon.classList.add("board__icon");
 
-  icon.classList.add("icon");
-
-  iconContainer.classList.add("iconContainer");
-
-  square.appendChild(iconContainer);
+  square.appendChild(icon);
   return square;
 };
 // DOM
 const handleSquareClick = (event) => {
   console.log(event.target);
   if (event.target.getAttribute("data-value") !== "") return;
-
-  const iconContainer = event.target.querySelector(".iconContainer");
-  const icon = event.target.querySelector(".icon");
-
+  const icon = event.target.querySelector(".board__icon");
   icon.innerHTML = icons[currentPlayer];
+  const svg = icon.querySelector("svg");
+  svg.classList.add("shadow-icon");
 
   event.target.setAttribute("data-value", currentPlayer);
   boardSquares[event.target.id] = currentPlayer;
@@ -94,7 +90,7 @@ const resetGame = () => {
 // DOM
 const winDisplay = (player) => {
   const display = document.createElement("div");
-  display.classList.add("winner");
+  display.classList.add("modal");
   display.textContent = `${player} wins!`;
   display.addEventListener("click", () => {
     display.remove();

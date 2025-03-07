@@ -21,21 +21,23 @@
   <body class="darkmode">
     <div id="app">
       <div class="container">
-        <h1 class="title">Tic Tac Toe</h1>
-        <div class="board"></div>
-        <div class="info">
-          <button id="reset">New Game</button>
-          <div class="points">
+        <header class="header">
+          <h1 class="title shadow-text">Tic Tac Toe</h1>
+          <div class="points shadow-box">
             <h3 class="points__title">Points</h3>
-            <div class="points__player">
+            <div class="points__player shadow-text">
               <span class="points__label">X:</span>
               <span class="points__value" id="player-1">0</span>
             </div>
-            <div class="points__player">
+            <div class="points__player shadow-text">
               <span class="points__label">O:</span>
               <span class="points__value" id="player-2">0</span>
             </div>
           </div>
+        </header>
+        <div class="board"></div>
+        <div class="info">
+          <button class="btn shadow-box" id="reset">New Game</button>
         </div>
       </div>
     </div>

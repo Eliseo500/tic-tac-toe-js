@@ -1,12 +1,12 @@
 :root {
+  --black: 24, 24, 24;
+  --white: 245, 245, 245;
+
   --color-accent-light: 31, 166, 244;
   --color-accent-dark: 119, 95, 239;
 
-  --color-bg-light: 245, 245, 245;
-  --color-bg-dark: 24, 24, 24;
-
-  --color-bg: var(--color-bg-light);
-  --color-text: var(--color-bg-dark);
+  --color-bg: var(--white);
+  --color-text: var(--black);
   --color-accent: var(--color-accent-light);
 }
 
@@ -26,9 +26,8 @@ select {
 }
 
 .darkmode {
-  --color-bg-light: 255, 255, 255;
-  --color-bg: var(--color-bg-dark);
-  --color-text: var(--color-bg-light);
+  --color-bg: var(--black);
+  --color-text: var(--white);
   --color-accent: var(--color-accent-dark);
 }
 
@@ -58,11 +57,63 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  padding-block: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
 }
 
 .title {
-  margin: 2rem 0;
   text-align: center;
+}
+
+.points {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(var(--color-accent), 0.1);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.points__title {
+  background-color: rgb(var(--color-accent));
+  border: none;
+  color: #fff;
+
+  text-align: center;
+  width: 100%;
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
+  z-index: -1;
+}
+
+.points__player {
+  display: flex;
+  justify-content: space-between;
+
+  border-bottom: 1px solid var(--color-accent);
+  width: 100%;
+  gap: 0.5rem;
+  font-weight: bold;
+}
+
+.points__player:last-child {
+  border-bottom: none;
+}
+
+.points__label {
+  width: 100%;
+  text-align: right;
+}
+
+.points__value {
+  width: 100%;
+  text-align: left;
 }
 
 .board {
@@ -73,7 +124,7 @@ body {
   margin: auto;
 }
 
-.square {
+.board__square {
   aspect-ratio: 1;
   border-radius: 10px;
 
@@ -83,45 +134,14 @@ body {
   justify-content: center;
   align-items: center;
   background-color: rgba(var(--color-accent), 0.09);
-
-  box-shadow: 3px 3px 9px rgba(var(--color-accent), 0.1),
-    2px 2px 3px rgba(var(--color-text), 0.1),
-    inset -1px -1px 3px rgba(var(--color-text), 0.1),
-    inset 1px 1px 3px rgba(var(--color-bg), 0.1),
-    inset 1px 1px 3px rgba(var(--color-bg), 0.3);
-}
-
-.darkmode .square {
-  background-color: rgba(var(--color-accent), 0.1);
-  --shadow-size: 1px;
-  --shadow-color-1: rgba(0, 0, 0, 0.1);
-  --shadow-color-2: rgba(var(--color-text), 0.3);
-
-  box-shadow: calc(var(--shadow-size) * 3) calc(var(--shadow-size) * 3)
-      calc(var(--shadow-size) * 9) rgba(var(--color-accent), 0.1),
-    calc(var(--shadow-size) * 2) calc(var(--shadow-size) * 2)
-      calc(var(--shadow-size) * 14) var(--shadow-color-1),
-    inset calc(var(--shadow-size) * -1) calc(var(--shadow-size) * -1)
-      calc(var(--shadow-size) * 3) var(--shadow-color-1),
-    inset calc(var(--shadow-size) * 1) calc(var(--shadow-size) * 1)
-      calc(var(--shadow-size) * 3) var(--shadow-color-1),
-    inset calc(var(--shadow-size) * 1) calc(var(--shadow-size) * 1)
-      calc(var(--shadow-size) * 3) var(--shadow-color-2);
-}
-
-.iconContainer {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
 }
 
-.icon,
-.iconBefore,
-.iconAfter {
+.darkmode .board__square {
+  background-color: rgba(var(--color-accent), 0.1);
+}
+
+.board__icon {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -129,11 +149,14 @@ body {
   justify-content: center;
   align-items: center;
   color: rgba(var(--color-accent), 1);
+
+  padding: 1.25rem;
+  pointer-events: none;
 }
 
-.iconContainer svg {
-  width: 60%;
-  height: 60%;
+.board__icon svg {
+  width: 100%;
+  height: 100%;
 
   animation: grow 0.35s ease-in-out forwards;
 }
@@ -156,30 +179,22 @@ body {
   }
 }
 
-.icon {
-  z-index: 1;
-}
-
-.icon svg {
-  filter: drop-shadow(4px 4px 2px rgba(0, 0, 0, 0.1))
-    drop-shadow(6px -5px 4px rgba(0, 0, 0, 0.1)) url(#inset-shadow-simple);
-}
-
-.square:hover {
+.board__square:hover {
   cursor: pointer;
 }
 
-.square[data-value=""]:hover {
+.board__square[data-value=""]:hover {
   border-width: 2px;
 }
 
-.square:not([data-value=""]) {
+.board__square:not([data-value=""]) {
   cursor: default;
 }
 
 .info {
   display: flex;
-  justify-content: stretch;
+  justify-content: center;
+
   align-items: center;
   margin: 2rem 0;
   gap: 1rem;
@@ -202,10 +217,6 @@ body {
   border-radius: 10px;
   padding: 0.5rem;
 
-  box-shadow: 2px 2px 5px rgba(4, 63, 97, 0.5),
-    inset 2px 2px 5px rgba(255, 255, 255, 0.5),
-    inset 0px 0px 0px rgba(4, 63, 97, 0.5);
-
   transition: box-shadow 0.1s linear;
 }
 
@@ -218,65 +229,14 @@ body {
     inset 2px 2px 8px rgba(var(--color-accent), 0.5);
 }
 
-.winner {
-  position: absolute;
+.modal {
+  position: fixed;
   inset: 0;
+  z-index: 1000;
   background-color: #00000080;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
   color: white;
-}
-
-.points {
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(var(--color-accent), 0.1);
-
-  box-shadow: 1px 1px 2px rgba(var(--color-accent), 0.2),
-    inset 1px 1px 2px rgba(var(--color-text), 0.2);
-  border-radius: 0.5rem;
-  overflow: hidden;
-}
-
-.points__title {
-  background-color: rgb(var(--color-accent));
-  border: none;
-  color: #fff;
-
-  text-align: center;
-  width: 100%;
-  border-radius: 0.5rem 0.5rem 0rem 0rem;
-
-  box-shadow: 2px 2px 5px rgba(4, 63, 97, 0.5),
-    inset 2px 2px 5px rgba(255, 255, 255, 0.5),
-    inset 0px 0px 0px rgba(4, 63, 97, 0.5);
-}
-
-.points__player {
-  display: flex;
-  justify-content: space-between;
-
-  border-bottom: 1px solid var(--color-accent);
-  width: 100%;
-}
-
-.points__player:last-child {
-  border-bottom: none;
-}
-
-.points__label {
-  font-weight: bold;
-  padding: 0.5rem;
-  width: 100%;
-  text-align: right;
-  background-color: var(--color-bg);
-}
-
-.points__value {
-  font-weight: bold;
-  padding: 0.5rem;
-  width: 100%;
-  background-color: var(--color-bg);
 }
